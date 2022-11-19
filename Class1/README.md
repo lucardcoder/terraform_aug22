@@ -20,3 +20,6 @@ terraform show
 
 terraform state list 
   shows list of resource names
+
+terraform import aws_iam_user.important_user  important_user
+  imports user
