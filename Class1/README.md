@@ -14,3 +14,6 @@ terraform apply --auto-approve
 terraform destroy 
 terraform destroy --auto-approve
   destroys
+
+terraform show 
+  shows list of resources  + arguments + attributes
