@@ -4,6 +4,9 @@ resource "aws_iam_user" "andrew" {
 
 resource "aws_iam_user" "important_user" {
   name = "important_user"
+  tags = {
+    Dept = "IT"
+  }
 }
 
 
