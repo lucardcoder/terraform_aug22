@@ -11,9 +11,23 @@ terraform apply
 terraform apply --auto-approve
   creates/changes/destroys
 
+
+terraform apply -target NAME
+  creates 1 resource out of all
+
+
 terraform destroy 
 terraform destroy --auto-approve
   destroys
+
+
+
+
+terraform state list
+terraform destroy   -target  NAME 
+  destroys one resources out of all
+
+
 
 terraform show 
   shows list of resources  + arguments + attributes
