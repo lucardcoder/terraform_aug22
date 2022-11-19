@@ -8,3 +8,10 @@ terraform validate
 
 terraform  plan 
   shows what would happen when "apply" run 
+
+terraform apply 
+  creates/changes/destroys
+
+
+terraform destroy 
+  destroys
