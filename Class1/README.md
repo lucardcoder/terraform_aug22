@@ -17,3 +17,6 @@ terraform destroy --auto-approve
 
 terraform show 
   shows list of resources  + arguments + attributes
+
+terraform state list 
+  shows list of resource names
