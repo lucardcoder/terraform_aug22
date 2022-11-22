@@ -12,11 +12,11 @@ module "asg" {
   desired_capacity          = 3
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
-  availability_zones =	[
-        "us-east-1a",
-        "us-east-1b",
-        "us-east-1c",
-    ]
+  availability_zones = [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+  ]
   # Launch template
   launch_template_name        = "example-asg"
   launch_template_description = "Launch template example"
@@ -26,5 +26,5 @@ module "asg" {
   instance_type     = "t3.micro"
   ebs_optimized     = false
   enable_monitoring = false
-  user_data = "IyEvYmluL2Jhc2gKc3VkbyB5dW0gaW5zdGFsbCBodHRwZCAteSAKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQg"
+  user_data         = "IyEvYmluL2Jhc2gKc3VkbyB5dW0gaW5zdGFsbCBodHRwZCAteSAKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQg"
 }
