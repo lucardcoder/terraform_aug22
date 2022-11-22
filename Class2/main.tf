@@ -1,6 +1,17 @@
+locals {
+  common_tags = {
+    Name = "HelloWorld"
+    Env  = "Dev"
+    Team = "DevOps"
+  }
+}
+
+
+
 resource "aws_key_pair" "bastion-host" {
   key_name   = "bastion-host-key-class2"
   public_key = file("~/.ssh/id_rsa.pub")
+  tags       = local.common_tags
 }
 
 resource "aws_security_group" "allow_tls" {
@@ -8,11 +19,11 @@ resource "aws_security_group" "allow_tls" {
   description = "Allow TLS inbound traffic"
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "TLS from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -22,20 +33,19 @@ resource "aws_security_group" "allow_tls" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+  tags = local.common_tags
 }
 
 
 resource "aws_instance" "web" {
-  ami           = "ami-0b0dcb5067f052a63"
-  instance_type = "t3.micro"
-  associate_public_ip_address  = true
-  availability_zone  = "us-east-1a"
-  key_name = aws_key_pair.bastion-host.key_name
-  monitoring = true
+  ami                         = "ami-0b0dcb5067f052a63"
+  instance_type               = "t3.micro"
+  associate_public_ip_address = true
+  availability_zone           = "us-east-1a"
+  key_name                    = aws_key_pair.bastion-host.key_name
+  monitoring                  = true
   vpc_security_group_ids = [
     aws_security_group.allow_tls.id
   ]
-  tags = {
-    Name = "Test"
-  }
+  tags = local.common_tags
 }
