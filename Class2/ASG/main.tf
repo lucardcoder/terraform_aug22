@@ -2,7 +2,7 @@ module "asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.5.3"
   # Autoscaling group
-  name = "example-asg"
+  name                      = "example-asg"
   min_size                  = 3
   max_size                  = 10
   desired_capacity          = 3
@@ -17,11 +17,13 @@ module "asg" {
   launch_template_name        = "example-asg"
   launch_template_description = "Launch template example"
   update_default_version      = true
-  image_id          = "ami-0b0dcb5067f052a63"
-  instance_type     = "t3.micro"
-  ebs_optimized     = false
-  enable_monitoring = false
-  user_data         = "IyEvYmluL2Jhc2gKc3VkbyB5dW0gaW5zdGFsbCBodHRwZCAteSAKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQg"
+  image_id                    = "ami-0b0dcb5067f052a63"
+  instance_type               = "t3.micro"
+  ebs_optimized               = false
+  enable_monitoring           = false
+  user_data                   = "IyEvYmluL2Jhc2gKc3VkbyB5dW0gaW5zdGFsbCBodHRwZCAteSAKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQg"
+  target_group_arns           = module.alb.target_group_arns
+
 }
 
 
@@ -68,17 +70,17 @@ resource "aws_security_group" "allow_tls" {
 
 
 module "alb" {
-  source  = "terraform-aws-modules/alb/aws"
-  version = "~> 8.0"
-  name = "my-alb"
+  source             = "terraform-aws-modules/alb/aws"
+  version            = "~> 8.0"
+  name               = "my-alb"
   load_balancer_type = "application"
   vpc_id             = var.vpc_id
-  subnets            = [
-    var.public_subnet1, 
+  subnets = [
+    var.public_subnet1,
     var.public_subnet2,
     var.public_subnet3
-    ]
-  security_groups    = [
+  ]
+  security_groups = [
     aws_security_group.allow_tls.id
   ]
 
@@ -110,9 +112,9 @@ resource "aws_route53_record" "www" {
   records = ["127.0.0.1"]
 }
 
-variable zone_id {}
-variable domain {}
-variable vpc_id {}
-variable public_subnet1 {}
-variable public_subnet2 {}
-variable public_subnet3 {}
+variable "zone_id" {}
+variable "domain" {}
+variable "vpc_id" {}
+variable "public_subnet1" {}
+variable "public_subnet2" {}
+variable "public_subnet3" {}
