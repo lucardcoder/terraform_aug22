@@ -76,6 +76,7 @@ module "alb" {
   version            = "~> 8.0"
   name               = "my-alb"
   load_balancer_type = "application"
+  enable_cross_zone_load_balancing = true
   vpc_id             = var.vpc_id
   subnets = [
     var.public_subnet1,
@@ -109,9 +110,9 @@ module "alb" {
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
   name    = "web.${var.domain}"
-  type    = "A"
+  type    = "CNAME"
   ttl     = 300
-  records = ["127.0.0.1"]
+  records = [module.alb.lb_dns_name]
 }
 
 variable "zone_id" {}
