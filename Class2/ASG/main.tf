@@ -3,7 +3,7 @@ module "asg" {
   version = "6.5.3"
 
 
-  
+
   # Autoscaling group
   name = "example-asg"
 
@@ -26,4 +26,5 @@ module "asg" {
   instance_type     = "t3.micro"
   ebs_optimized     = false
   enable_monitoring = false
+  user_data = "IyEvYmluL2Jhc2gKc3VkbyB5dW0gaW5zdGFsbCBodHRwZCAteSAKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQg"
 }
