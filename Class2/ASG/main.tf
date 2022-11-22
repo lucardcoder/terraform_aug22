@@ -25,47 +25,80 @@ module "asg" {
 }
 
 
-# module "alb" {
-#   source  = "terraform-aws-modules/alb/aws"
-#   version = "~> 8.0"
-#   name = "my-alb"
-#   load_balancer_type = "application"
-#   # vpc_id             = "vpc-abcde012"
-#   # subnets            = ["subnet-abcde012", "subnet-bcde012a"]
-#   # security_groups    = ["sg-edcd9784", "sg-edcd9785"]
+resource "aws_security_group" "allow_tls" {
+  name        = "terraform-testing-alb"
+  description = "Allow TLS inbound traffic"
 
-#   access_logs = {
-#     bucket = "my-alb-logs"
-#   }
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   target_groups = [
-#     {
-#       name_prefix      = "pref-"
-#       backend_protocol = "HTTP"
-#       backend_port     = 80
-#       target_type      = "instance"
-#       targets = {
-#         my_target = {
-#           target_id = "i-0123456789abcdefg"
-#           port = 80
-#         }
-#         my_other_target = {
-#           target_id = "i-a1b2c3d4e5f6g7h8i"
-#           port = 8080
-#         }
-#       }
-#     }
-#   ]
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   http_tcp_listeners = [
-#     {
-#       port               = 80
-#       protocol           = "HTTP"
-#       target_group_index = 0
-#     }
-#   ]
 
-# }
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
+
+
+
+
+
+module "alb" {
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 8.0"
+  name = "my-alb"
+  load_balancer_type = "application"
+  vpc_id             = var.vpc_id
+  subnets            = [
+    var.public_subnet1, 
+    var.public_subnet2,
+    var.public_subnet3
+    ]
+  security_groups    = [
+    aws_security_group.allow_tls.id
+  ]
+
+  target_groups = [
+    {
+      name_prefix      = "pref-"
+      backend_protocol = "HTTP"
+      backend_port     = 80
+      target_type      = "instance"
+    }
+  ]
+
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0
+    }
+  ]
+}
 
 
 
@@ -79,3 +112,7 @@ resource "aws_route53_record" "www" {
 
 variable zone_id {}
 variable domain {}
+variable vpc_id {}
+variable public_subnet1 {}
+variable public_subnet2 {}
+variable public_subnet3 {}
