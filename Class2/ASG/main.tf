@@ -4,14 +4,15 @@ module "asg" {
   # Autoscaling group
   name = "example-asg"
 
-  min_size                  = 0
-  max_size                  = 1
-  desired_capacity          = 1
+  min_size                  = 3
+  max_size                  = 10
+  desired_capacity          = 3
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
   availability_zones =	[
         "us-east-1a",
-        "us-east-1b"
+        "us-east-1b",
+        "us-east-1c",
     ]
   # Launch template
   launch_template_name        = "example-asg"
