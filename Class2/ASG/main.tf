@@ -1,6 +1,9 @@
 module "asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
+  version = "6.5.3"
 
+
+  
   # Autoscaling group
   name = "example-asg"
 
