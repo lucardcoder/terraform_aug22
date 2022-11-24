@@ -23,7 +23,7 @@ resource "azuread_user" "example" {
 	given_name = "John"
 	surname = "Doe"
 	mail_nickname = "jdoe"
-	password = random_password.password.result
+	password = "3gm$0fBXS$6S@5Dzn7YO"
 	company_name = "evolvecyber"
 	country = "US"
 	city = "Chicago"
