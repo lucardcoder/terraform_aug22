@@ -6,10 +6,10 @@ resource "azurerm_resource_group" "example" {
 
 
 resource "random_string" "random" {
-length = 14
-special = false
-override_special = "/@£$"
-upper = false
+  length           = 14
+  special          = false
+  override_special = "/@£$"
+  upper            = false
 }
 
 
