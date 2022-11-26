@@ -2,7 +2,7 @@ resource "google_compute_autoscaler" "default" {
   provider = google-beta
 
   name   = "my-autoscaler"
-  zone   = "us-central1-f"
+  zone   = "us-south1-a"
   target = google_compute_instance_group_manager.default.id
 
   autoscaling_policy {
@@ -54,7 +54,7 @@ resource "google_compute_instance_group_manager" "default" {
   provider = google-beta
 
   name = "my-igm"
-  zone = "us-central1-f"
+  zone = "us-south1-a"
 
   version {
     instance_template = google_compute_instance_template.default.id
@@ -73,6 +73,6 @@ data "google_compute_image" "debian_9" {
 }
 
 provider "google-beta" {
-  region = "us-central1"
-  zone   = "us-central1-a"
+  region = "us-south1"
+  zone   = "us-south1-a"
 }
