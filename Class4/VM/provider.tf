@@ -1,3 +1,4 @@
 provider "google" {
-  region      = "us-central1"
+  region      = "us-south1"
+  zone      = "us-south1-a"
 }
