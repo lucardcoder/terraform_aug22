@@ -13,6 +13,11 @@ resource "google_compute_instance" "default" {
     }
   }
 
+	
+	metadata = {
+		ssh-keys = "admin-user:${file("~/.ssh/id_rsa.pub")}"
+	}
+
 
   network_interface {
     network = "default"
