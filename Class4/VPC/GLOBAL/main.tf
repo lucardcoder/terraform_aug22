@@ -6,7 +6,7 @@ provider "google" {
 resource "google_compute_network" "vpc" {
 	name = "vpc"
 	auto_create_subnetworks = "true"
-	routing_mode = "Global"
+	routing_mode = "GLOBAL"
 }
 
 variable "vpc_config" {
