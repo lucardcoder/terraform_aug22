@@ -2,17 +2,27 @@ packer {
   required_plugins {
     amazon = {
       version = ">= 1.1.1"
-      source = "github.com/hashicorp/amazon"
+      source  = "github.com/hashicorp/amazon"
     }
   }
 }
 
+variable "ami_id" {
+  type    = string
+  default = "ami-0beaa649c482330f7"
+}
+
+variable "region" {
+  type    = string
+  default = "us-east-2"
+}
+
 source "amazon-ebs" "amazon_linux" {
-  region        = "us-east-2"
-  source_ami    = "ami-0beaa649c482330f7"
+  region        = "${var.region}"
+  source_ami    = "${var.ami_id}"
   instance_type = "t2.micro"
   ssh_username  = "ec2-user"
-  ami_name      = "packer1"
+  ami_name      = "packer_{{timestamp}}"
 }
 
 build {
@@ -20,8 +30,8 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo yum install httpd -y", 
-      "sudo systemctl start httpd", 
+      "sudo yum install httpd -y",
+      "sudo systemctl start httpd",
       "sudo systemctl enable httpd"
     ]
   }
