@@ -7,11 +7,6 @@ packer {
   }
 }
 
-variable "ami_id" {
-  type    = string
-  default = "ami-0beaa649c482330f7"
-}
-
 variable "region" {
   type    = string
   default = "us-east-2"
@@ -19,10 +14,18 @@ variable "region" {
 
 source "amazon-ebs" "amazon_linux" {
   region        = "${var.region}"
-  source_ami    = "${var.ami_id}"
   instance_type = "t2.micro"
   ssh_username  = "ec2-user"
   ami_name      = "packer_{{timestamp}}"
+  source_ami_filter {
+    filters = {
+      name                = "amzn2-ami-hvm-*-x86_64-ebs"
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+    }
+    most_recent = true
+    owners      = ["amazon"]
+  }
 }
 
 build {
