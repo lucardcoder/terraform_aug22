@@ -31,11 +31,7 @@ source "amazon-ebs" "amazon_linux" {
 build {
   sources = ["source.amazon-ebs.amazon_linux"]
 
-  provisioner "shell" {
-    inline = [
-      "sudo yum install httpd -y",
-      "sudo systemctl start httpd",
-      "sudo systemctl enable httpd"
-    ]
+  provisioner "ansible" {
+    playbook_file = "./httpd.yml"
   }
 }
