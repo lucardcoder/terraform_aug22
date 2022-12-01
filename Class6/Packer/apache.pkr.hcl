@@ -8,8 +8,8 @@ packer {
 }
 
 source "amazon-ebs" "amazon_linux" {
-  region        = "us-east-1"
-  source_ami    = "ami-fce3c696"
+  region        = "us-east-2"
+  source_ami    = "ami-0beaa649c482330f7"
   instance_type = "t2.micro"
   ssh_username  = "ec2-user"
   ami_name      = "packer1"
